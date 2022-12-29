@@ -17,8 +17,10 @@ def pytest_addoption(parser):
 # pytest -s -v --browser=chrome --language=ru test_items.py
 @pytest.fixture(scope='function')
 def driver(request):
+    
     browser = request.config.getoption('browser')
     user_language = request.config.getoption("language")
+    
     match browser:
         case 'chrome':
             print('\nstart chrome browser for test..')
@@ -31,6 +33,7 @@ def driver(request):
         #     driver = webdriver.Firefox(service=FirefoxService(GeckoDriverManager().install()))
         case _:
             raise pytest.UsageError('--browser should be chrome or firefox(waiting for the bug fix)')
+            
     yield driver
     print('\nquit browser..')
     driver.quit()
